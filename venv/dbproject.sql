@@ -65,6 +65,11 @@ CREATE TABLE users (
   country text,
   phone text
 );
+alter table users
+add column date date;
+
+alter table users
+modify column date text;
 
 
 INSERT INTO `users` 
