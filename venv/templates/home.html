@@ -2,13 +2,13 @@
 <html>
 <head>
 <title>Welcome</title>
-<link rel="stylesheet" href={{ url_for('static', filename='css/home.css') }} />
-<link rel="stylesheet" href={{ url_for('static', filename='css/topStyle.css') }} />
+<link rel="stylesheet" href={{url_for('static', filename='css/home.css') }} />
+<link rel="stylesheet" href={{url_for('static', filename='css/topStyle.css') }} />
 </head>
 <body>
 <div id="title">
 	<a href="/">
-		<img id="logo" src= {{ url_for('static', filename='images/logo.png') }} />
+		<img id="logo" src= {{url_for('static', filename='images/logo.png') }} />
 	</a>
 	<form>
 		<input id="searchBox" type="text" name="searchQuery">
@@ -61,7 +61,7 @@
 				{% for row in data %}
 				<td>
 					<a href="/productDescription?productId={{row[0]}}">
-						<img src={{ url_for('static', filename='uploads/' + row[4]) }} id="itemImage" />
+						<img src={{url_for('static', filename='uploads/' + row[4]) }} id="itemImage" />
 					</a>
 				</td>
 				{% endfor %}

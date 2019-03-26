@@ -2,13 +2,13 @@
 <html>
 <head>
 <title>Profile Home</title>
-<link rel="stylesheet" href={{ url_for('static', filename='css/profileHome.css') }} />
-<link rel="stylesheet" href={{ url_for('static', filename='css/topStyle.css') }} />
+<link rel="stylesheet" href={{url_for('static', filename='css/profileHome.css') }} />
+<link rel="stylesheet" href={{url_for('static', filename='css/topStyle.css') }} />
 </head>
 <body>
 <div id="title">
 	<a href="/">
-		<img id="logo" src= {{ url_for('static', filename='images/logo.png') }} />
+		<img id="logo" src= {{url_for('static', filename='images/logo.png') }} />
 	</a>
 	<form>
 		<input id="searchBox" type="text" name="searchQuery">
