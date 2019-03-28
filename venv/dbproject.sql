@@ -11,8 +11,8 @@ CREATE TABLE categories (
   cname text);
 
 	INSERT INTO `categories` 
-    VALUES (1,'Men'),(2,'Books'),(3,'Computers and Accessories'),
-    (4,'Movies, Music and Video Games'),(5,'Jwelery, Watches and Eyewear'),
+    VALUES (1,'Men'),(2,'Books'),(3,'Computers'),
+    (4,'Movies'),(5,'jewellery'),
     (6,'Women');
 
 
@@ -20,31 +20,56 @@ DROP TABLE IF EXISTS products;
 CREATE TABLE products (
   productId int(11) NOT NULL PRIMARY KEY,
   pname varchar(255),
-  price decimal(10,0) DEFAULT NULL,
+  price decimal(10,2) DEFAULT NULL,
   description text,
   image text,
   stock int(11) DEFAULT NULL,
   categoryId int(11) DEFAULT NULL,
   FOREIGN KEY (categoryId) REFERENCES categories(categoryId)
-); 
+);
 
-	INSERT INTO `products` 
-    VALUES (2,'Second',2,'Second Item','Kinkaku_Ji_by_Elizabeth_K_Joseph.jpg',2,1),
-    (3,'First',1,'First book.','Untitled_by_Troy_Jarrell.jpg',1,2),
-    (4,'T Shirt 1',1,'First T shirt','Kinkaku_Ji_by_Elizabeth_K_Joseph.jpg',1,1),
-    (5,'T Shirt 2',2,'Second T shirt','The_Sky_Is_The_Limit_by_Kaushik_Panchal.jpg',2,1),
-    (6,'T Shirt 3',3,'Third tshirt','Untitled_by_Troy_Jarrell.jpg',3,1),
-    (7,'T Shirt 4',4,'Fourth T shirt','Untitled_by_Aaron_Burden.jpg',4,1),
-    (8,'T Shirt 5',5,'FIfth Tshirt','The_Sky_Is_The_Limit_by_Kaushik_Panchal.jpg',5,1),
-    (9,'Book 1',1,'FIrst Book','Mountainous_View_by_Sven_Scheuermeier.jpg',1,2),
-    (10,'Book 2',2,'Second Book','The_Sky_Is_The_Limit_by_Kaushik_Panchal.jpg',2,2),
-    (11,'Book 3',3,'Third book.','Untitled_0026_by_Mike_Sinko.jpg',3,2),
-    (12,'Book 4',4,'Fourth book.','Untitled_7019_by_Mike_Sinko.jpg',4,2),
-    (13,'Book 5',5,'Fifth book.','Untitled_by_Troy_Jarrell.jpg',5,2),
-    (14,'Computer 1',1,'First computer','Untitled_by_Aaron_Burden.jpg',1,3),
-    (15,'Movie 1',1,'First mvoie','Yellow_Jacket_by_Manuel_Frei.png',1,4),
-    (16,'Jwelery 1',1,'First jwelery','Kinkaku_Ji_by_Elizabeth_K_Joseph.jpg',1,5),
-    (17,'Saree 1',1,'First saree','Mountainous_View_by_Sven_Scheuermeier.jpg',1,6);
+	INSERT INTO `products`
+    VALUES (2,'Men Watch',29.99,'Elegant Men Wrist watch','wristwatch1.jpg',4,5),
+    (3,'Leather Watches',15.00,'Water proof leather wrist watch','wristwatch2.jpg',3,5),
+    (4,'Bracelet Watches',10.00,'Beautiful ladies hand braclet wrist watch','wristwatch3.jpg',3,5),
+    (5,'Sliver Watches',20.50,'Sliver coated wrist watch for all gender','wristwatch4.jpg',2,5),
+    (6,'Unique watch',9.50,'Suitable for everyone','wristwatch5.jpg',5,5),
+    (7,'Kada bracelet',35.00,'Shop hand kada bracelet with ring','bracelet1.jpg',4,5),
+    (8,'Sliver Bracelet',20.00,'Hand sterling Sliver bracelet','bracelet2.jpg',3,5),
+    (9,'Gold Bracelet',20.59,'Gold plated hand bracelet','bracelet3.jpg',7,5),
+    (10,'Gold hand chain',29.50,'Fashion bracelet gold hand chain','bracelet4.jpg',5,5),
+    (11,'Necklace',73.38,'Interlocking sliver necklace and bracelet','bracelet5.jpg',4,5),
+    (12,'Necklace',12.99,'Multi strand necklace','bracelet6.jpg',14,5),
+    (13,'Mini necklace',73.38,'Beautiful, attractive mini necklace','bracelet7.jpg',2,5),
+    (14,'Men shirt',50.00,'Slim fit men long sleeve shirt','men1.jpg',15,1),
+    (15,'Men suit',100.85 ,'fitted men suit', 'men2.jpg',10,1),
+    (16,'Men T-shirt',20,'Men fitted shirt','men3.jpg',20,1),
+    (17,'Men blazer',30,'Men fitted blazer','men4.jpg',30,1),
+    (18,'Men Jacket',24.56,'Men Brown Jacket','men5.jpg',14,1),
+    (19,'Men Knittle',35.00,'Cute Men Knittle Jacket','men6.jpg',5,1),
+    (20,'Hugh loafers',50,'Hugh perforated penny loafers','men7.jpg',11,1),
+    (21,'Men dress shoe',60,'Black men dress shoe','men8.jpg',8,1),
+    (22,'New Laptop',550.80,'Hp 3-1 function','laptop1.jpg',4,3),
+    (23,'Hp Essential',1000,'Hp Essential personal laptop','laptop2.jpg',4,3),
+	(24,'New Mac',2550.80,'Mac for hackering','laptop3.jpg',2,3),
+    (25,'Iphone 7',1000,'Apple iPhone 7','laptop6.jpg',14,3),
+	(26,'Samsung Phone',550.80,'Samsung galaxy S5 Black','laptop5.jpg',12,3),
+    (27,'New Dell',1500,'Dell inspiron personal laptop (i3542-)','laptop4.jpg',4,3),
+    (28,'Ladies dress',150.40,'Summer women midi dress','women1.jpg',14,6),
+    (29,'Short dress',100,'Ladies midi dress','women2.jpg',24,6),
+	(30,'Long sleeve dress',50.80,'Women button down long sleeve','women3.jpg',12,6),
+    (31,'Leather Bag',50,'Women Pu leather dollar bag','women4.jpg',14,6),
+	(32,'Shoulder bag',40.80,'Women comfort Shoulder bag','women5.jpg',12,6),
+    (33,'Laptop handbag',30,'Comfortable to use','women6.jpg',4,6),
+    (34,'Ladies loafers',50,'Flat durable loafers','women7.jpg',14,6),
+	(35,'Ladies high heels',150.80,'Available in various colors','women8.jpg',12,6),
+    (36,'Ladies office shoe',25,'cute with different colors','women9.jpg',4,6),
+    (37,'Venom',20,'Venom by tom hardy','movie1.jpg',14,4),
+	(38,'Scooby-Doo',20.80,'Kids halloween movie','movie2.jpg',12,4),
+    (39,'Avengers',30,'Avengers : infinity war','movie3.jpg',4,4),
+    (40,'Super Heros',50,'Lego Super heroes 2','movie4.jpg',14,4),
+	(41,'Switch game',53.80,'Nintendo switch game','movie5.jpg',12,4),
+    (42,'Video games',25,'video games','movie6.jpg',4,4);
 
 
 --
@@ -63,17 +88,12 @@ CREATE TABLE users (
   city text,
   state text,
   country text,
-  phone text
+  phone text,
+  date text
 );
-alter table users
-add column date date;
 
-alter table users
-modify column date text;
-
-
-INSERT INTO `users` 
-VALUES (1,'0cc175b9c0f1b6a831c399e269772661','abcd@example.com','Tobe','Ihegborow','scaa','asa','as','asc','dasd','dfas','dsa');
+INSERT INTO `users`
+VALUES (1,'0cc175b9c0f1b6a831c399e269772661','abcd@example.com','Tobe','Ihegborow','scaa','asa','as','asc','dasd','dfas','dsa','23-02-2010');
 
 
 --
@@ -88,5 +108,3 @@ CREATE TABLE cart (
 	FOREIGN KEY (userId) REFERENCES users(userId),
 	FOREIGN KEY (productId) REFERENCES products(productId)
 );
-
-SELECT productId, pname, price, description, image, stock FROM products WHERE productId = "5";

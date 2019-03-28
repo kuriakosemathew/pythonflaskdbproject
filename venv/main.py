@@ -3,12 +3,14 @@ from flaskext.mysql import MySQL
 from werkzeug.utils import secure_filename
 import hashlib
 import hashlib_additional
+import pandas as pd
+
 
 
 app = Flask(__name__)
 mysql = MySQL()
 app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'timezone01!'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'admin'
 app.config['MYSQL_DATABASE_DB'] = 'dbproject'
 app.config['MYSQL_DATABASE_HOST'] = '127.0.0.1'
 mysql.init_app(app)
@@ -106,12 +108,13 @@ def register():
         state = request.form['state']
         country = request.form['country']
         phone = request.form['phone']
-        date = request.form['date']
+        #date = request.form['date']
         conn = mysql.connect()
         cur = conn.cursor()
         try:
             print("Debug register")
             cur = conn.cursor()
+            date = pd.to_datetime('today').strftime('%d-%m-%Y')
             cur.execute('INSERT INTO users '
                             '(password, email, firstName, lastName, address1, address2, zipcode, city, state, country, phone, date) '
                             'VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',
@@ -289,7 +292,7 @@ def updateProfile():
         phone = request.form['phone']
         conn = mysql.connect()
         try:
-            cur = con.cursor()
+            cur = conn.cursor()
             cur.execute('UPDATE users SET firstName = ?, lastName = ?, address1 = ?, address2 = ?, zipcode = ?, city = ?, state = ?, country = ?, phone = ? WHERE email = ?', (firstName, lastName, address1, address2, zipcode, city, state, country, phone, email))
 
             conn.commit()
@@ -297,7 +300,7 @@ def updateProfile():
         except:
             conn.rollback()
             msg = "Error occured"
-        con.close()
+        conn.close()
     return redirect(url_for('editProfile'))
 
 
