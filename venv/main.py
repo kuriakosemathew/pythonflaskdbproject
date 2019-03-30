@@ -28,7 +28,7 @@ def root():
     loggedIn, firstName, noOfItems = getLoginDetails()
     conn = mysql.connect()
     cur = conn.cursor()
-    cur.execute('SELECT productId, pname, price, description, image, stock FROM products')
+    cur.execute('SELECT productId, pname, price, description, image, stock FROM products WHERE productId between 2 and 15')
     itemData = cur.fetchall()
     cur.execute('SELECT categoryId, cname FROM categories')
     categoryData = cur.fetchall()
@@ -214,12 +214,14 @@ def displayCategory():
         categoryId = request.args.get("categoryId")
         conn = mysql.connect()
         cur = conn.cursor()
-        cur.execute("SELECT products.productId, products.name, products.price, products.image, categories.name FROM products, categories WHERE products.categoryId = categories.categoryId AND categories.categoryId = ?", (categoryId, ))
+        cur.execute("SELECT products.productId, products.pname, products.price, products.image, categories.cname FROM products, categories WHERE products.categoryId = categories.categoryId AND categories.categoryId =" + categoryId)
         data = cur.fetchall()
         conn.close()
+        cur.execute('SELECT categoryId, cname FROM categories')
+        categoryData = cur.fetchall()
         categoryName = data[0][4]
         data = parse(data)
-        return render_template('displayCategory.html', data=data, loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems, categoryName=categoryName)
+        return render_template('displayCategory.html', data=data, loggedIn=loggedIn, firstName=firstName, noOfItems=noOfItems, categoryName=categoryName, categoryData=categoryData)
 
 
 
@@ -312,6 +314,8 @@ def productDescription():
     #productId = 2
     conn = mysql.connect()
     cur = conn.cursor()
+    cur.execute('SELECT categoryId, cname FROM categories')
+    categoryData = cur.fetchall()
     print(productId)
     cur.execute("SELECT productId, pname, price, description, image, stock FROM products WHERE productId = %s", (productId,))
     #cur.execute("SELECT productId, pname, price, description, image, stock FROM products WHERE productId = %s",(productId),)
@@ -319,7 +323,7 @@ def productDescription():
     print("Done")
     productData = cur.fetchone()
     conn.close()
-    return render_template("productDescription.html", data=productData, loggedIn = loggedIn, firstName = firstName, noOfItems = noOfItems)
+    return render_template("productDescription.html", data=productData, loggedIn = loggedIn, firstName = firstName, noOfItems = noOfItems, categoryData =categoryData)
 
 
 
