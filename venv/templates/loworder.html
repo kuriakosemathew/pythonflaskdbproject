@@ -2,9 +2,47 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Title</title>
 </head>
+
 <body>
-$END$
+<table border="1" id="info">
+    <tr>
+        <th>
+            OrderID
+        </th>
+        <th>
+            ProductId
+        </th>
+        <th>
+            Stock
+        </th>
+        <th>
+            Confirm
+        </th>
+    </tr>
+    {% for i in range(data|length) %}
+	<tr>
+		{% for row in data %}
+		<td>
+			{{row[0]}}
+		</td>
+        <td>
+			{{row[1]}}
+		</td>
+        <td>
+			{{row[2]}}
+		</td>
+        <td>
+            <a href="/loworderconfirm?productId={{row[1]}}">
+			Confirm
+			</a>
+        </td>
+		{% endfor %}
+	</tr>
+	{% endfor %}
+
+</table>
+
 </body>
 </html>
