@@ -1,0 +1,68 @@
+
+
+	<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+	<title>Customer Login Page</title>
+	<link rel="stylesheet" href= {{url_for('static', filename='css/bootstrap4/bootstrap.min.css') }} />
+	<link rel="stylesheet" href= {{url_for('static', filename='font-awesome-4.7.0/css/font-awesome.min.css') }} />
+
+	<!-- Custom styles -->
+	<link rel="stylesheet" href= {{url_for('static', filename='css/CustomerLoginStyle.css') }} />
+</head>
+<body>
+<div class="container">
+    <div class="card card-login mx-auto text-center bg-dark">
+        <div class="card-header mx-auto bg-dark">
+
+
+							<a href="#" class="w-75"><h5 class="logoName">2BTIM</h5> <span class="spanShop">shop</span></a><br/>
+                        <span class="logo_title mt-5"> Customer Login Page </span>
+
+
+        </div>
+        <div class="card-body">
+			<p style="color: white"> {{error}} </p>
+            <form action="/login" method="POST">
+                <div class="input-group form-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-user"></i></span>
+                    </div>
+                    <input type="text" name="email" class="form-control" placeholder="Username">
+                </div>
+
+                <div class="input-group form-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fa fa-key"></i></span>
+                    </div>
+                    <input type="password" name="password" class="form-control" placeholder="Password">
+                </div>
+
+                <div class="input-group form-group">
+                    <input type="checkbox"><span class="rememberMe">Remember Me</span>
+					</div>
+
+                <div class="form-group">
+                    <input type="submit" name="btn" value="Login" class="btn btn-outline-danger float-right login_btn">
+                </div>
+            </form>
+
+        </div>
+        <div class="card-footer mx-auto bg-dark" style="border-top:none!important;">
+				<div class="d-flex justify-content-center links">
+                    <span class="footerWord">Don't have an account? </span><a href="/registerationForm" class="footerAccount">Sign Up</a>
+				</div>
+				<!--<div class="d-flex justify-content-center">
+					<a href="#" class="footerAccount">Forgot your password?</a>
+				</div> -->
+			</div>
+    </div>
+</div>
+
+
+<script src="{{url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
+<script src="{{url_for('static', filename='css/bootstrap4/popper.js') }}"></script>
+<script src="{{url_for('static', filename='css/bootstrap4/bootstrap.min.js') }}"></script>
+</body>
+</html>
