@@ -89,7 +89,9 @@ CREATE TABLE users (
   state text,
   country text,
   phone text,
-  date text
+  date text,
+  gender int,
+  age int
 );
 
 --
@@ -156,3 +158,24 @@ IF new.stock = 0 THEN
 END IF;
 END $$
 DELIMITER ;
+
+
+UPDATE `dbproject`.`users` SET `gender`='1', `age`='19' WHERE `userId`='2';
+UPDATE `dbproject`.`users` SET `gender`='1', `age`='18' WHERE `userId`='3';
+UPDATE `dbproject`.`users` SET `gender`='1', `age`='18' WHERE `userId`='5';
+UPDATE `dbproject`.`users` SET `gender`='1', `age`='19' WHERE `userId`='4';
+UPDATE `dbproject`.`users` SET `gender`='1', `age`='19' WHERE `userId`='6';
+UPDATE `dbproject`.`users` SET `gender`='1', `age`='29' WHERE `userId`='7';
+UPDATE `dbproject`.`users` SET `gender`='1', `age`='27' WHERE `userId`='8';
+UPDATE `dbproject`.`users` SET `gender`='1', `age`='23' WHERE `userId`='9';
+UPDATE `dbproject`.`users` SET `gender`='1', `age`='22' WHERE `userId`='10';
+UPDATE `dbproject`.`users` SET `gender`='0', `age`='21' WHERE `userId`='11';
+UPDATE `dbproject`.`users` SET `gender`='0', `age`='23' WHERE `userId`='12';
+UPDATE `dbproject`.`users` SET `gender`='0', `age`='12' WHERE `userId`='13';
+UPDATE `dbproject`.`users` SET `gender`='0', `age`='23' WHERE `userId`='14';
+UPDATE `dbproject`.`users` SET `gender`='0', `age`='35' WHERE `userId`='15';
+UPDATE `dbproject`.`users` SET `gender`='1', `age`='34' WHERE `userId`='16';
+UPDATE `dbproject`.`users` SET `gender`='1', `age`='34' WHERE `userId`='17';
+UPDATE `dbproject`.`users` SET `gender`='1', `age`='34' WHERE `userId`='18';
+UPDATE `dbproject`.`users` SET `gender`='1', `age`='34' WHERE `userId`='19';
+UPDATE `dbproject`.`users` SET `gender`='1', `age`='34' WHERE `userId`='20';
