@@ -1,9 +1,7 @@
+
+
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Insights</title>
-</head>
+<html lang="en-US">
 <body>
 <h1>Gender</h1>
 <p>Male : {{male[0]}}</p>
@@ -12,5 +10,57 @@
 <p><20 : {{lt20[0]}}</p>
 <p>>20 & <30 : {{lt30[0]}}</p>
 <p>>30  :{{gt30[0]}}</p>
+<h1>PIE CHARTS</h1>
+
+<div id="piechart"></div>
+<div id="piechart2"></div>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript">
+// Load google charts
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+// Draw the chart and set the chart values
+function drawChart() {
+  var data = google.visualization.arrayToDataTable([
+  ['Male', 'Hours per Day'],
+  ['Male', {{male[0]}}],
+  ['Female', {{female[0]}}]
+]);
+
+  // Optional; add a title and set the width and height of the chart
+  var options = {'title':'Gender', 'width':550, 'height':400};
+
+  // Display the chart inside the <div> element with id="piechart"
+  var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+  chart.draw(data, options);
+}
+</script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript">
+// Load google charts
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+// Draw the chart and set the chart values
+function drawChart() {
+  var data = google.visualization.arrayToDataTable([
+  ['Male', 'Hours per Day'],
+  ['Less than 20', {{lt20[0]}}],
+  ['Between 20 and 30', {{lt30[0]}}],
+    ['Greater than 30', {{lt30[0]}}]
+]);
+
+  // Optional; add a title and set the width and height of the chart
+  var options = {'title':'Age', 'width':550, 'height':400};
+
+  // Display the chart inside the <div> element with id="piechart"
+  var chart = new google.visualization.PieChart(document.getElementById('piechart2'));
+  chart.draw(data, options);
+}
+</script>
+
 </body>
 </html>
