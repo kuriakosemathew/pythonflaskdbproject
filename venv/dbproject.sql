@@ -146,6 +146,7 @@ INSERT INTO `dbproject`.`users` (`userId`, `password`, `email`, `firstName`, `la
 INSERT INTO `dbproject`.`users` (`userId`, `password`, `email`, `firstName`, `lastName`, `address1`, `address2`, `zipcode`, `city`, `state`, `country`, `phone`, `date`) VALUES ('20', '1234', 'aaa@mathew.com', 'mathew', 'mathew', 'lasf', 'lasf', 'lasf', 'lasf', 'lasf', 'lasf', '0901309', '11-01-2018');
 
 
+
 DELIMITER $$ 
 CREATE TRIGGER updatestock
  BEFORE UPDATE ON products
@@ -156,3 +157,49 @@ IF new.stock = 0 THEN
 END IF;
 END $$
 DELIMITER ;
+
+
+
+drop table if exists purchase_history;
+CREATE TABLE purchase_history (
+p_historyID int(11) NOT NULL auto_increment primary KEY,
+userId int,
+p_name text,
+quantity int,
+productId int(11) NOT NULL,
+FOREIGN KEY (userId) REFERENCES users(userId),
+FOREIGN KEY (productId) REFERENCES products(productId));
+
+INSERT INTO purchase_history
+VALUES (null, 3, 'Gold Bracelet', 3, 9), (null, 9, 'New Laptop', 1, 22);
+
+
+DROP TABLES IF EXISTS bestselling_products;
+CREATE TABLE bestselling_products(
+bestsellingID int(11) NOT NULL auto_increment primary key,
+productId int(11) NOT NULL,
+p_name text,
+quantity int,
+FOREIGN KEY (productId) REFERENCES products(productId));
+
+
+INSERT INTO bestselling_products
+VALUES (null, 17, 'Men blazer', 20);
+
+
+-- Manager Privileges ------------------------------------------
+CREATE USER 'manager'@'localhost' IDENTIFIED BY 'password';
+GRANT SELECT, INSERT, DELETE, UPDATE ON dbproject.products TO 'manager'@'localhost';
+GRANT EXECUTE ON PROCEDURE dbproject.last4months_users TO 'manager'@'localhost';
+GRANT EXECUTE ON PROCEDURE dbproject.low_stock TO 'manager'@'localhost';
+GRANT EXECUTE ON PROCEDURE dbproject.Top3_BestSellingProducts TO 'user'@'localhost';
+GRANT EXECUTE ON PROCEDURE dbproject.Bestselling TO 'user'@'localhost';
+
+
+-- User Privileges ------------------------------------------
+CREATE USER 'user'@'localhost' IDENTIFIED BY 'password';
+GRANT SELECT ON dbproject.products TO 'user'@'localhost';
+GRANT EXECUTE ON PROCEDURE dbproject.Top3_BestSellingProducts TO 'user'@'localhost';
+GRANT EXECUTE ON PROCEDURE dbproject.Top10_ExpensiveProducts TO 'user'@'localhost';
+
+FLUSH PRIVILEGES;
