@@ -270,6 +270,40 @@ def confirmstock():
     print(msg)
     return render_template("loworder.html",data=data)
 
+
+#mathew
+@app.route("/insights")
+def insights():
+    conn = mysql.connect()
+    try:
+        cur = conn.cursor()
+        cur.execute('select count(*) from users where gender=1')
+        male = cur.fetchone()
+        cur.execute('select count(*) from users where gender=0')
+        female = cur.fetchone()
+        cur.execute('select count(*) from users where age < 20')
+        lt20 = cur.fetchone()
+        cur.execute('select count(*) from users where age < 30 and age >20')
+        lt30 = cur.fetchone()
+        cur.execute('select count(*) from users where age > 30;')
+        gt30 = cur.fetchone()
+        print(male)
+        print(lt20)
+        conn.commit()
+        msg = "Deleted successsfully"
+    except:
+        conn.rollback()
+        msg = "Error occured"
+    conn.close()
+    print(msg)
+    return render_template("insights.html",male=male,female=female,lt20=lt20,lt30=lt30,gt30=gt30)
+
+
+
+
+
+
+
 @app.route("/displayCategory")
 def displayCategory():
         loggedIn, firstName, noOfItems = getLoginDetails()
