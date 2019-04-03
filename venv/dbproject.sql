@@ -203,3 +203,74 @@ GRANT EXECUTE ON PROCEDURE dbproject.Top3_BestSellingProducts TO 'user'@'localho
 GRANT EXECUTE ON PROCEDURE dbproject.Top10_ExpensiveProducts TO 'user'@'localhost';
 
 FLUSH PRIVILEGES;
+
+
+
+
+-- Bestselling Stored Procedures ----------
+DROP procedure IF EXISTS `Bestselling`;
+DELIMITER $$
+USE `dbproject`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Bestselling`()
+BEGIN
+SELECT * from bestselling_products;
+END$$
+DELIMITER ;
+
+
+-- Low Stock Stored Procedures ----------
+USE `dbproject`;
+DROP procedure IF EXISTS `low_stock`;
+DELIMITER $$
+USE `dbproject`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `low_stock`()
+BEGIN
+SELECT productId, pname, price, stock
+FROM dbproject.products
+where stock < 5;
+END$$
+DELIMITER ;
+
+
+-- Top10_ExpensiveProducts Stored Procedures ----------
+DROP procedure IF EXISTS `Top10_ExpensiveProducts`;
+DELIMITER $$
+USE `dbproject`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Top10_ExpensiveProducts`()
+BEGIN
+	SELECT productId, pname, price
+	FROM dbproject.products
+	where price > 50.00
+	order by price desc
+	limit 10 ;
+END$$
+DELIMITER ;
+
+
+-- Top3_BestSellingProducts Stored Procedures ----------
+USE `dbproject`;
+DROP procedure IF EXISTS `Top3_BestSellingProducts`;
+DELIMITER $$
+USE `dbproject`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Top3_BestSellingProducts`()
+BEGIN
+	SELECT *
+	from bestselling_products
+	where quantity > 10
+	limit 3;
+END$$
+DELIMITER ;
+
+
+-- last4months_users Stored Procedures ----------
+USE `dbproject`;
+DROP procedure IF EXISTS `last4months_users`;
+DELIMITER $$
+USE `dbproject`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `last4months_users`()
+BEGIN
+	SELECT userId, email, firstname, lastName
+	FROM dbproject.users
+	where date between '01-01-2019' and '01-04-2019';
+END$$
+DELIMITER ;
