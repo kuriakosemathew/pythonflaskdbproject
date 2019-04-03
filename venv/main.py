@@ -247,6 +247,8 @@ def removeItem():
     conn.close()
     print(msg)
     return redirect(url_for('root'))
+
+
 #mathew
 @app.route("/loworderconfirm")
 def confirmstock():

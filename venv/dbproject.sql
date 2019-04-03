@@ -182,3 +182,22 @@ FOREIGN KEY (productId) REFERENCES products(productId));
 
 INSERT INTO bestselling_products
 VALUES (null, 17, 'Men blazer', 20);
+
+
+
+-- Manager Privileges ------------------------------------------
+CREATE USER 'manager'@'localhost' IDENTIFIED BY 'password';
+GRANT SELECT, INSERT, DELETE, UPDATE ON dbproject.products TO 'manager'@'localhost';
+GRANT EXECUTE ON PROCEDURE dbproject.last4months_users TO 'manager'@'localhost';
+GRANT EXECUTE ON PROCEDURE dbproject.low_stock TO 'manager'@'localhost';
+GRANT EXECUTE ON PROCEDURE dbproject.Top3_BestSellingProducts TO 'user'@'localhost';
+GRANT EXECUTE ON PROCEDURE dbproject.Bestselling TO 'user'@'localhost';
+
+
+-- User Privileges ------------------------------------------
+CREATE USER 'user'@'localhost' IDENTIFIED BY 'password';
+GRANT SELECT ON dbproject.products TO 'user'@'localhost';
+GRANT EXECUTE ON PROCEDURE dbproject.Top3_BestSellingProducts TO 'user'@'localhost';
+GRANT EXECUTE ON PROCEDURE dbproject.Top10_ExpensiveProducts TO 'user'@'localhost';
+
+FLUSH PRIVILEGES;
