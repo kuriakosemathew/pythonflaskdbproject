@@ -183,7 +183,7 @@ def registrationForm():
 def admin():
     conn = mysql.connect()
     cur = conn.cursor()
-    cur.execute("SELECT categoryId, name FROM categories")
+    cur.execute("SELECT categoryId, cname FROM categories")
     categories = cur.fetchall()
     conn.close()
     return render_template('add.html', categories=categories)
