@@ -11,7 +11,7 @@ from datetime import  datetime
 app = Flask(__name__)
 mysql = MySQL()
 app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = ''
+app.config['MYSQL_DATABASE_PASSWORD'] = 'timezone01!'
 app.config['MYSQL_DATABASE_DB'] = 'dbproject'
 app.config['MYSQL_DATABASE_HOST'] = '127.0.0.1'
 mysql.init_app(app)
@@ -247,6 +247,8 @@ def removeItem():
     conn.close()
     print(msg)
     return redirect(url_for('root'))
+
+
 #mathew
 @app.route("/loworderconfirm")
 def confirmstock():
@@ -308,7 +310,7 @@ def displayCategory():
         categoryId = request.args.get("categoryId")
         conn = mysql.connect()
         cur = conn.cursor()
-        cur.execute("SELECT products.productId, products.name, products.price, products.image, categories.name FROM products, categories WHERE products.categoryId = categories.categoryId AND categories.categoryId = %s", (categoryId, ))
+        cur.execute("SELECT products.productId, pname, products.price, products.image, cname FROM products, categories WHERE products.categoryId = categories.categoryId AND categories.categoryId = %s", (categoryId, ))
         data = cur.fetchall()
         conn.close()
         cur.execute('SELECT categoryId, cname FROM categories')
@@ -440,6 +442,17 @@ def addToCart():
             msg = "Error occured"
     conn.close()
     return redirect(url_for('root'))
+
+
+#tobenna
+@app.route("/bestselling")
+def bestselling():
+    conn = mysql.connect()
+    cur = conn.cursor()
+    cur.execute("select p_name, quantity from bestselling_products")
+    data = cur.fetchall()
+    conn.commit()
+    return render_template("bestselling.html", data=data)
 
 
 
