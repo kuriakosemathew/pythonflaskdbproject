@@ -11,7 +11,7 @@ from datetime import  datetime
 app = Flask(__name__)
 mysql = MySQL()
 app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'timezone01!'
+app.config['MYSQL_DATABASE_PASSWORD'] = ''
 app.config['MYSQL_DATABASE_DB'] = 'dbproject'
 app.config['MYSQL_DATABASE_HOST'] = '127.0.0.1'
 mysql.init_app(app)
@@ -312,7 +312,7 @@ def displayCategory():
         cur = conn.cursor()
         cur.execute("SELECT products.productId, pname, products.price, products.image, cname FROM products, categories WHERE products.categoryId = categories.categoryId AND categories.categoryId = %s", (categoryId, ))
         data = cur.fetchall()
-        conn.close()
+        #conn.close()
         cur.execute('SELECT categoryId, cname FROM categories')
         categoryData = cur.fetchall()
         categoryName = data[0][4]
@@ -433,13 +433,14 @@ def addToCart():
         cur = conn.cursor()
         cur.execute("SELECT userId FROM users WHERE email = %s", (session['email'], ))
         userId = cur.fetchone()[0]
-        try:
-            cur.execute("INSERT INTO cart (userId, productId) VALUES (%s, %s)", (userId, productId))
-            conn.commit()
-            msg = "Added successfully"
-        except:
-            conn.rollback()
-            msg = "Error occured"
+        #try:
+        cur.execute("INSERT INTO cart (userId, productId) VALUES (%s, %s)", (userId, productId))
+        conn.commit()
+        msg = "Added successfully"
+        #except:
+         #   conn.rollback()
+          #  msg = "Error occured"
+    print(msg)
     conn.close()
     return redirect(url_for('root'))
 
