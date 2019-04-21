@@ -74,7 +74,6 @@ def login():
 def adminlogin():
     #mercy added email =email to matthew's code
 
-
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
@@ -90,14 +89,14 @@ def adminlogin():
         total_orders = cur.fetchone()
         cur.execute("call total_users();")
         total_users = cur.fetchone()
-
         #cur.execute("SELECT * FROM users where email=%e", [email])
         #data = cur.fetchone()
         #return render_template('home.html', data=data)
 
+
         if is_validadmin(email, password):
             session['email'] = email
-            return render_template('admin.html')
+
             return render_template('admin.html', email=email, total_users=total_users, total_orders=total_orders,
                                    cat_break=cat_break, Top10_ExpensiveProducts=Top10_ExpensiveProducts)
         else:
