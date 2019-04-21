@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+<!--<!DOCTYPE HTML>
 <html>
 <head>
 <title>Admin</title>
@@ -19,7 +19,96 @@
 	<input type="submit">
 </form>
 </body>
+</html>-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Item</title>
+    <link rel="stylesheet" href= {{url_for('static', filename='css/bootstrap4/bootstrap.min.css') }} />
+	<link rel="stylesheet" href= {{url_for('static', filename='font-awesome-4.7.0/css/font-awesome.min.css') }} />
+
+	</head>
+<body>
+
+<div class="container">
+            <form action="/addItem" method="POST" enctype="multipart/form-data" onsubmit="return validate()" class="form-horizontal" role="form" id="addItemForm">
+
+                        <h2>Add Item</h2>
+                    <div class="row">
+                        <div class="col-md-6">
+							<div class="form-group row">
+                    			<label for="name" class="col-sm-4 control-label">Name: </label>
+                    			<div class="col-sm-8">
+                        		<input type="text" name="name" class ="form-control" id="name" placeholder="Name" required>
+                   				 </div>
+                			</div>
+
+							<div class="form-group row">
+                    			<label for="price" class="col-sm-4 control-label">Price: </label>
+                    			<div class="col-sm-8">
+                        		<input type="text" name="price" class ="form-control" id="price" placeholder="Price" required>
+                   				 </div>
+                			</div>
+
+							<div class="form-group row">
+                    			<label for="description" class="col-sm-4 control-label">Description:</label>
+                    			<div class="col-sm-8">
+									<textarea rows=3 cols="40" class ="form-control" name="description" id="description" placeholder="Name" required></textarea>
+                   				 </div>
+                			</div>
+
+                        </div>
+
+                        <div class="col-md-6">
+                           <div class="form-group row">
+                    			<label for="stock" class="col-sm-4 control-label">Stock: </label>
+                    			<div class="col-sm-8">
+                        		<input type="text" name="stock" class ="form-control" id="stock" placeholder="Stock" required>
+                   				 </div>
+                			</div>
+							<div class="form-group row">
+                    			<label for="image" class="col-sm-4 control-label">Image:</label>
+                    			<div class="col-sm-8">
+                        		<input type="file" name="image" id="image" required>
+                   				 </div>
+                			</div>
+							<div class="form-group row">
+                    			<label for="category" class="col-sm-4 control-label">Category:</label>
+                    			<div class="col-sm-8">
+									<select name="category" id="category" class ="form-control" required>
+										{% for row in categories %}
+												<option value="{{row[0]}}">{{row[1]}}</option>
+										{% endfor %}
+									</select>
+                   				 </div>
+                			</div>
+
+                        </div>
+                    </div>
+
+               <div class="row" >
+                    <div class=" col-md-6 ">
+                    <button type="submit" class="btn btn-success btn-block col-md-4" style="left:370px">Add</button>
+                </div>
+					 <div class=" col-md-6">
+                    <a href="/admin" class="btn btn-default btn-block col-md-4">Cancel</a>
+                </div>
+                </div>
+            </form> <!-- /form -->
+        </div> <!-- ./container -->
+
+<script src="{{url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
+<script src="{{url_for('static', filename='js/jquery.validate.min.js') }}"></script>
+<script src="{{url_for('static', filename='css/bootstrap4/popper.js') }}"></script>
+<script src="{{url_for('static', filename='css/bootstrap4/bootstrap.min.js') }}"></script>
+
+
+</body>
 </html>
+
 
 
 
