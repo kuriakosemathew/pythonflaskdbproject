@@ -1,4 +1,3 @@
-
 create database if not exists dbproject;
 use dbproject;
 
@@ -11,7 +10,7 @@ CREATE TABLE categories (
   categoryId int(11) NOT NULL PRIMARY KEY,
   cname text);
 
-	INSERT INTO `categories`
+	INSERT INTO `categories` 
     VALUES (1,'Men'),(2,'Books'),(3,'Computers'),
     (4,'Movies'),(5,'jewellery'),
     (6,'Women');
@@ -32,7 +31,7 @@ CREATE TABLE products (
 	INSERT INTO `products`
     VALUES (2,'Men Watch',29.99,'Elegant Men Wrist watch','wristwatch1.jpg',4,5),
     (3,'New Laptop',550.80,'Hp 3-1 function','laptop1.jpg',4,3),
-    (4,'Bracelet Watches',10.00,'Beautiful ladies hand braclet wrist watch','wristwatch2.jpg',3,5),
+    (4,'Bracelet Watches',10.00,'Beautiful ladies hand braclet wrist watch','wristwatch3.jpg',3,5),
     (5,'Sliver Watches',20.50,'Sliver coated wrist watch for all gender','wristwatch4.jpg',2,5),
     (6,'Iphone 7',1000,'Apple iPhone 7','laptop6.jpg',14,3),
     (7,'Men Knittle',35.00,'Cute Men Knittle Jacket','men6.jpg',5,1),
@@ -97,7 +96,10 @@ CREATE TABLE users (
 
 
 
-
+	INSERT INTO ORDERS(productId,stock) values (old.productId,50);
+END IF;
+END $$
+DELIMITER ;
 
 
 UPDATE `dbproject`.`users` SET `gender`='1', `age`='19' WHERE `userId`='2';
@@ -151,8 +153,6 @@ CREATE TABLE ORDERS (
 );
 
 
-DELIMITER ;
-
 
 DELETE FROM `dbproject`.`users` WHERE `userId`='1';
 UPDATE `dbproject`.`users` SET `userId`='1' WHERE `userId`='2';
@@ -176,9 +176,8 @@ INSERT INTO `dbproject`.`users` (`userId`, `password`, `email`, `firstName`, `la
 INSERT INTO `dbproject`.`users` (`userId`, `password`, `email`, `firstName`, `lastName`, `address1`, `address2`, `zipcode`, `city`, `state`, `country`, `phone`, `date`) VALUES ('19', '1234', 'qqq@mathew.com', 'mathew', 'mathew', 'lasf', 'lasf', 'lasf', 'lasf', 'lasf', 'lasf', '0901309', '25-12-2018');
 INSERT INTO `dbproject`.`users` (`userId`, `password`, `email`, `firstName`, `lastName`, `address1`, `address2`, `zipcode`, `city`, `state`, `country`, `phone`, `date`) VALUES ('20', '1234', 'aaa@mathew.com', 'mathew', 'mathew', 'lasf', 'lasf', 'lasf', 'lasf', 'lasf', 'lasf', '0901309', '11-01-2018');
 
-INSERT INTO `admin` (`adminId`, `password`, `email`) VALUES ('1', '1234', 'mat@mat.com');
 
-DELIMITER $$
+DELIMITER $$ 
 CREATE TRIGGER updatestock
  BEFORE UPDATE ON products
  FOR EACH ROW
@@ -187,183 +186,4 @@ IF new.stock = 0 THEN
 	INSERT INTO ORDERS(productId,stock) values (old.productId,50);
 END IF;
 END $$
-DELIMITER ;
-
-
-
-drop table if exists purchase_history;
-CREATE TABLE purchase_history (
-p_historyID int(11) NOT NULL auto_increment primary KEY,
-userId int,
-p_name text,
-quantity int,
-productId int(11) NOT NULL,
-FOREIGN KEY (userId) REFERENCES users(userId),
-FOREIGN KEY (productId) REFERENCES products(productId));
-
-INSERT INTO purchase_history
-VALUES (null, 3, 'Gold Bracelet', 3, 9), (null, 9, 'New Laptop', 1, 22);
-
-
-DROP TABLES IF EXISTS bestselling_products;
-CREATE TABLE bestselling_products(
-bestsellingID int(11) NOT NULL auto_increment primary key,
-productId int(11) NOT NULL,
-p_name text,
-quantity int,
-FOREIGN KEY (productId) REFERENCES products(productId));
-
-
-INSERT INTO bestselling_products
-VALUES (null, 17, 'Men blazer', 20);
-
-
-UPDATE `dbproject`.`users` SET `gender`='1', `age`='19' WHERE `userId`='2';
-UPDATE `dbproject`.`users` SET `gender`='1', `age`='18' WHERE `userId`='3';
-UPDATE `dbproject`.`users` SET `gender`='1', `age`='18' WHERE `userId`='5';
-UPDATE `dbproject`.`users` SET `gender`='1', `age`='19' WHERE `userId`='4';
-UPDATE `dbproject`.`users` SET `gender`='1', `age`='19' WHERE `userId`='6';
-UPDATE `dbproject`.`users` SET `gender`='1', `age`='29' WHERE `userId`='7';
-UPDATE `dbproject`.`users` SET `gender`='1', `age`='27' WHERE `userId`='8';
-UPDATE `dbproject`.`users` SET `gender`='1', `age`='23' WHERE `userId`='9';
-UPDATE `dbproject`.`users` SET `gender`='1', `age`='22' WHERE `userId`='10';
-UPDATE `dbproject`.`users` SET `gender`='0', `age`='21' WHERE `userId`='11';
-UPDATE `dbproject`.`users` SET `gender`='0', `age`='23' WHERE `userId`='12';
-UPDATE `dbproject`.`users` SET `gender`='0', `age`='12' WHERE `userId`='13';
-UPDATE `dbproject`.`users` SET `gender`='0', `age`='23' WHERE `userId`='14';
-UPDATE `dbproject`.`users` SET `gender`='0', `age`='35' WHERE `userId`='15';
-UPDATE `dbproject`.`users` SET `gender`='1', `age`='34' WHERE `userId`='16';
-UPDATE `dbproject`.`users` SET `gender`='1', `age`='34' WHERE `userId`='17';
-UPDATE `dbproject`.`users` SET `gender`='1', `age`='34' WHERE `userId`='18';
-UPDATE `dbproject`.`users` SET `gender`='1', `age`='34' WHERE `userId`='19';
-UPDATE `dbproject`.`users` SET `gender`='1', `age`='34' WHERE `userId`='20';
-
-
-
-INSERT INTO `dbproject`.`admin` (`adminId`, `password`, `email`) VALUES ('1', '1234', 'mat@mat.com');
-
-
--- Manager Privileges ------------------------------------------
-CREATE USER 'manager'@'localhost' IDENTIFIED BY 'password';
-GRANT SELECT, INSERT, DELETE, UPDATE ON dbproject.products TO 'manager'@'localhost';
-GRANT EXECUTE ON PROCEDURE dbproject.last4months_users TO 'manager'@'localhost';
-GRANT EXECUTE ON PROCEDURE dbproject.low_stock TO 'manager'@'localhost';
-GRANT EXECUTE ON PROCEDURE dbproject.Top3_BestSellingProducts TO 'user'@'localhost';
-GRANT EXECUTE ON PROCEDURE dbproject.Bestselling TO 'user'@'localhost';
-
-
--- User Privileges ------------------------------------------
-CREATE USER 'user'@'localhost' IDENTIFIED BY 'password';
-GRANT SELECT ON dbproject.products TO 'user'@'localhost';
-GRANT EXECUTE ON PROCEDURE dbproject.Top3_BestSellingProducts TO 'user'@'localhost';
-GRANT EXECUTE ON PROCEDURE dbproject.Top10_ExpensiveProducts TO 'user'@'localhost';
-
-FLUSH PRIVILEGES;
-
-
-
-
--- Bestselling Stored Procedures ----------
-DROP procedure IF EXISTS `Bestselling`;
-DELIMITER $$
-USE `dbproject`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Bestselling`()
-BEGIN
-SELECT * from bestselling_products;
-END$$
-DELIMITER ;
-
-
--- Low Stock Stored Procedures ----------
-USE `dbproject`;
-DROP procedure IF EXISTS `low_stock`;
-DELIMITER $$
-USE `dbproject`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `low_stock`()
-BEGIN
-SELECT productId, pname, price, stock
-FROM dbproject.products
-where stock < 5;
-END$$
-DELIMITER ;
-
-
--- Top10_ExpensiveProducts Stored Procedures ----------
-DROP procedure IF EXISTS `Top10_ExpensiveProducts`;
-DELIMITER $$
-USE `dbproject`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Top10_ExpensiveProducts`()
-BEGIN
-	SELECT productId, pname, price
-	FROM dbproject.products
-	where price > 50.00
-	order by price desc
-	limit 10 ;
-END$$
-DELIMITER ;
-
-
--- Top3_BestSellingProducts Stored Procedures ----------
-USE `dbproject`;
-DROP procedure IF EXISTS `Top3_BestSellingProducts`;
-DELIMITER $$
-USE `dbproject`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Top3_BestSellingProducts`()
-BEGIN
-	SELECT *
-	from bestselling_products
-	where quantity > 10
-	limit 3;
-END$$
-DELIMITER ;
-
-
--- last4months_users Stored Procedures ----------
-USE `dbproject`;
-DROP procedure IF EXISTS `last4months_users`;
-DELIMITER $$
-USE `dbproject`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `last4months_users`()
-BEGIN
-	SELECT userId, email, firstname, lastName
-	FROM dbproject.users
-	where date between '01-01-2019' and '01-04-2019';
-END$$
-DELIMITER ;
-
--- totalUsers Stored Procedures ----------
-USE `dbproject`;
-DROP procedure IF EXISTS `total_users`;
-DELIMITER $$
-USE `dbproject`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `total_users`()
-BEGIN
-	SELECT count(*) as total
-	FROM dbproject.users;
-END$$
-DELIMITER ;
-
--- totalOrderToMake Stored Procedures ----------
-USE `dbproject`;
-DROP procedure IF EXISTS `total_orders`;
-DELIMITER $$
-USE `dbproject`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `total_orders`()
-BEGIN
-	SELECT count(*) as total
-	FROM dbproject.orders;
-END$$
-DELIMITER ;
-
--- totalItem Grouped by Categories Stored Procedures ----------
-USE `dbproject`;
-DROP procedure IF EXISTS `cat_break`;
-DELIMITER $$
-USE `dbproject`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `cat_break`()
-BEGIN
-	SELECT sum(stock)
-	FROM products
-    group by categoryId;
-END$$
 DELIMITER ;

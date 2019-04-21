@@ -72,33 +72,19 @@ def login():
 #Admin Login
 @app.route("/adminlogin", methods=['GET', 'POST'])
 def adminlogin():
-    #mercy added email =email to matthew's code
-
 
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
         conn = mysql.connect()
-        # Mercy Stored Procedure to get total users
-
         cur = conn.cursor()
-        cur.execute("call cat_break();")
-        cat_break = cur.fetchall()
-        cur.execute("call Top10_ExpensiveProducts();")
-        Top10_ExpensiveProducts = cur.fetchall()
-        cur.execute("call total_orders();")
-        total_orders = cur.fetchone()
-        cur.execute("call total_users();")
-        total_users = cur.fetchone()
-
         #cur.execute("SELECT * FROM users where email=%e", [email])
         #data = cur.fetchone()
         #return render_template('home.html', data=data)
 
         if is_validadmin(email, password):
             session['email'] = email
-            return render_template('admin.html', email=email, total_users=total_users, total_orders=total_orders,
-                                   cat_break=cat_break, Top10_ExpensiveProducts=Top10_ExpensiveProducts)
+            return render_template('admin.html')
         else:
             error = 'Invalid User email / Password'
             return render_template('login.html', error=error)
@@ -192,33 +178,21 @@ def registrationForm():
     return render_template("register.html")
 
 
-@app.route("/list")
-def list():
-
-    conn = mysql.connect()
-    cur = conn.cursor()
-    cur.execute("SELECT * FROM products")
-    data = cur.fetchall()
-    conn.close()
-    return render_template("tableproducts.html", data=data)
 
 @app.route("/add")
 def admin():
     conn = mysql.connect()
     cur = conn.cursor()
-    cur.execute("SELECT categoryId, cname FROM categories")
+    cur.execute("SELECT categoryId, name FROM categories")
     categories = cur.fetchall()
     conn.close()
     return render_template('add.html', categories=categories)
 
 
 
-#Bhagya
-
 @app.route("/addItem", methods=["GET", "POST"])
 def addItem():
     if request.method == "POST":
-        productId=44
         name = request.form['name']
         price = float(request.form['price'])
         description = request.form['description']
@@ -234,8 +208,8 @@ def addItem():
         conn = mysql.connect()
         try:
             cur = conn.cursor()
-            cur.execute('''INSERT INTO products (productId, pname, price, description, image, stock, categoryId) VALUES (%s, %s, %s, %s, %s, %s, %s)''',
-                        (productId,name, price, description, imagename, stock, categoryId))
+            cur.execute('''INSERT INTO products (name, price, description, image, stock, categoryId) VALUES (%s, %s, %s, %s, %s, %s)''',
+                        (name, price, description, imagename, stock, categoryId))
             conn.commit()
             msg="added successfully"
         except:
@@ -243,19 +217,19 @@ def addItem():
             conn.rollback()
         conn.close()
         print(msg)
-        return redirect(url_for('admin'))
+        return redirect(url_for('root'))
 
 
 
-#Bhagya
 @app.route("/remove")
 def remove():
     conn = mysql.connect()
     cur = conn.cursor()
-    cur.execute('SELECT productId, pname, price, description, image, stock, categoryId FROM products')
+    cur.execute('SELECT productId, name, price, description, image, stock FROM products')
     data = cur.fetchall()
     conn.close()
     return render_template('remove.html', data=data)
+
 
 
 @app.route("/removeItem")
@@ -293,33 +267,6 @@ def confirmstock():
     conn.close()
     print(msg)
     return render_template("loworder.html",data=data)
-
-#mathew
-@app.route("/insights")
-def insights():
-    conn = mysql.connect()
-    try:
-        cur = conn.cursor()
-        cur.execute('select count(*) from users where gender=1')
-        male = cur.fetchone()
-        cur.execute('select count(*) from users where gender=0')
-        female = cur.fetchone()
-        cur.execute('select count(*) from users where age < 20')
-        lt20 = cur.fetchone()
-        cur.execute('select count(*) from users where age < 30 and age >20')
-        lt30 = cur.fetchone()
-        cur.execute('select count(*) from users where age > 30;')
-        gt30 = cur.fetchone()
-        print(male)
-        print(lt20)
-        conn.commit()
-        msg = "Deleted successsfully"
-    except:
-        conn.rollback()
-        msg = "Error occured"
-    conn.close()
-    print(msg)
-    return render_template("insights.html",male=male,female=female,lt20=lt20,lt30=lt30,gt30=gt30)
 
 @app.route("/displayCategory")
 def displayCategory():
@@ -450,27 +397,15 @@ def addToCart():
         cur = conn.cursor()
         cur.execute("SELECT userId FROM users WHERE email = %s", (session['email'], ))
         userId = cur.fetchone()[0]
-        # try:
-        cur.execute("INSERT INTO cart (userId, productId) VALUES (%s, %s)", (userId, productId))
-        conn.commit()
-        msg = "Added successfully"
-        # except:
-        #   conn.rollback()
-        #  msg = "Error occured"
+        try:
+            cur.execute("INSERT INTO cart (userId, productId) VALUES (%s, %s)", (userId, productId))
+            conn.commit()
+            msg = "Added successfully"
+        except:
+            conn.rollback()
+            msg = "Error occured"
     conn.close()
     return redirect(url_for('root'))
-
-
-#tobenna
-@app.route("/bestselling")
-def bestselling():
-    conn = mysql.connect()
-    cur = conn.cursor()
-    cur.execute("select p_name, quantity from bestselling_products")
-    data = cur.fetchall()
-    conn.commit()
-    return render_template("bestselling.html", data=data)
-
 
 
 
